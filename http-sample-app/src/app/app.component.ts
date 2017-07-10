@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs/Observable";
-import {HttpClient, HttpRequest} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import * as _ from 'lodash';
 
 
@@ -35,18 +35,40 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-/*
+
+
+        // Simple HTTP GET
+//        this.courses$ = this.http
+//            .get("https://angular-http-guide.firebaseio.com/courses.json")
+//            .do(console.log)
+//            .map(data => _.values(data));
+
+
+
+
+
+
+
+        //
+        //const params = new HttpParams()
+        //    .set('orderBy', '"$key"')
+        //    .set('limitToFirst', "1");
+
+        //
+        //const params = new HttpParams({fromString: 'orderBy="$key"&limitToFirst=1'});
+
+        const params = new HttpParams({fromString: 'orderBy="$key"&limitToFirst=1'});
+
+        const headers = new HttpHeaders().set("X-CustomHeader", "custom header value");
+
         this.courses$ = this.http
-            .get("https://angular-http-guide.firebaseio.com/courses.json")
+            .get(
+                "https://angular-http-guide.firebaseio.com/courses.json",
+                {headers})
             .do(console.log)
-            .map(data => _.values(data))
+            .map(data => _.values(data));
 
-*/
 
-        this.courses$ = this.http
-            .request<Object>(new HttpRequest('GET', "https://angular-http-guide.firebaseio.com/courses.json", {responseType:'json'}))
-            .map(data => _.values(data))
-            .do(console.log);
 
 
     }
