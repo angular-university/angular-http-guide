@@ -7,17 +7,16 @@ import * as _ from 'lodash';
   selector: 'app-root',
   template: `
   
-      <ul>
-          <li *ngFor="let course of courses$ | async">
+      <ul *ngIf="courses$ | async as courses else noData">
+          <li *ngFor="let course of courses">
               {{course.description}}
           </li>
           
       </ul>
       
-  
-  `,
-  styleUrls: ['./app.component.css']
-})
+      <ng-template #noData>No Data Available</ng-template>
+      
+  `})
 export class AppComponent implements OnInit {
 
     courses$: Observable<any>;
