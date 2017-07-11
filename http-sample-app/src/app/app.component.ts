@@ -6,40 +6,41 @@ import * as _ from 'lodash';
 
 interface Course {
     description: string;
-    courseListIcon:string;
-    iconUrl:string;
-    longDescription:string;
-    url:string;
+    courseListIcon: string;
+    iconUrl: string;
+    longDescription: string;
+    url: string;
 }
 
 
 @Component({
-  selector: 'app-root',
-  template: `
-  
-      <ul *ngIf="courses$ | async as courses else noData">
-          <li *ngFor="let course of courses">
-              {{course.description}}
-          </li>
-          
-      </ul>
-      
-      <ng-template #noData>No Data Available</ng-template>
-      
-      <button (click)="httpPutExample()">PUT Request</button>
+    selector: 'app-root',
+    template: `
 
-      <button (click)="httpPatchExample()">PATCH Request</button>
+        <ul *ngIf="courses$ | async as courses else noData">
+            <li *ngFor="let course of courses">
+                {{course.description}}
+            </li>
 
-      <button (click)="httpDeleteExample()">DELETE Request</button>
+        </ul>
 
-      <button (click)="httpPostExample()">POST Request</button>
-      
-  `})
+        <ng-template #noData>No Data Available</ng-template>
+
+        <button (click)="httpPutExample()">PUT Request</button>
+
+        <button (click)="httpPatchExample()">PATCH Request</button>
+
+        <button (click)="httpDeleteExample()">DELETE Request</button>
+
+        <button (click)="httpPostExample()">POST Request</button>
+
+    `
+})
 export class AppComponent implements OnInit {
 
     courses$: Observable<Course>;
 
-    constructor(private http:HttpClient) {
+    constructor(private http: HttpClient) {
 
     }
 
@@ -76,11 +77,11 @@ export class AppComponent implements OnInit {
 
         this.http.put("https://angular-http-guide.firebaseio.com/courses/-KgVwECOnlc-LHb_B0cQ.json",
             {
-                "courseListIcon" : "https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png",
-                "description" : "Angular Tutorial For Beginners TEST",
-                "iconUrl" : "https://angular-academy.s3.amazonaws.com/thumbnails/angular2-for-beginners.jpg",
-                "longDescription" : "...",
-                "url" : "new-value-for-url"
+                "courseListIcon": "https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png",
+                "description": "Angular Tutorial For Beginners TEST",
+                "iconUrl": "https://angular-academy.s3.amazonaws.com/thumbnails/angular2-for-beginners.jpg",
+                "longDescription": "...",
+                "url": "new-value-for-url"
             },
             {headers})
             .subscribe(
