@@ -4,6 +4,7 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import * as _ from 'lodash';
 
 
+
 interface Course {
     description: string;
     courseListIcon: string;
@@ -33,6 +34,8 @@ interface Course {
         <button (click)="httpDeleteExample()">DELETE Request</button>
 
         <button (click)="httpPostExample()">POST Request</button>
+
+        <button (click)="duplicateRequestsExample()">Duplicate Requests</button>
 
     `
 })
@@ -105,14 +108,82 @@ export class AppComponent implements OnInit {
 
     httpPatchExample() {
 
+        this.http.patch("https://angular-http-guide.firebaseio.com/courses/-KgVwECOnlc-LHb_B0cQ.json",
+            {
+                "description": "Angular Tutorial For Beginners PATCH TEST",
+            })
+            .subscribe(
+                (val) => {
+
+                    console.log("PATCH call successful value returned in body", val);
+
+                },
+                response => {
+
+                    console.log("PATCH call in error", response);
+
+                },
+                () => {
+
+                    console.log("The PATCH observable is now completed.");
+                });
+
+
     }
 
     httpDeleteExample() {
+
+        this.http.delete("https://angular-http-guide.firebaseio.com/courses/-KgVwECOnlc-LHb_B0cQ.json")
+            .subscribe(
+                (val) => {
+                    console.log("DELETE call successful value returned in body", val);
+                },
+                response => {
+                    console.log("DELETE call in error", response);
+                },
+                () => {
+                    console.log("The DELETE observable is now completed.");
+                });
 
     }
 
     httpPostExample() {
 
+
+        this.http.post("https://angular-http-guide.firebaseio.com/courses/-KgVwECOnlc-LHb_B0cQ.json",
+            {
+                "courseListIcon": "...",
+                "description": "TEST",
+                "iconUrl": "..",
+                "longDescription": "...",
+                "url": "new-url"
+            })
+            .subscribe(
+                (val) => {
+                    console.log("POST call successful value returned in body", val);
+                },
+                response => {
+                    console.log("POST call in error", response);
+                },
+                () => {
+                    console.log("The POST observable is now completed.");
+                });
+
+    }
+
+
+    duplicateRequestsExample() {
+
+        const httpGet$ = this.http
+            .get("https://angular-http-guide.firebaseio.com/courses.json")
+            .map(data => _.values(data))
+            .shareReplay();
+
+        httpGet$.subscribe(
+            (val) => console.log("logging GET value", val)
+        );
+
+        this.courses$ = httpGet$;
     }
 
 }
