@@ -6,6 +6,9 @@ import {AppComponent} from './app.component';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/shareReplay';
+import 'rxjs/add/operator/switchMap';
+
+import 'rxjs/add/observable/forkJoin';
 
 
 

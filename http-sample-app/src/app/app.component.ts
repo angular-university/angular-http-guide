@@ -36,6 +36,10 @@ interface Course {
         <button (click)="httpPostExample()">POST Request</button>
 
         <button (click)="duplicateRequestsExample()">Duplicate Requests</button>
+        
+        <button (click)="parallelRequests()">Parallel</button>
+        
+        <button (click)="sequentialRequests()">Sequential</button>
 
     `
 })
@@ -184,6 +188,37 @@ export class AppComponent implements OnInit {
         );
 
         this.courses$ = httpGet$;
+    }
+
+
+
+    parallelRequests() {
+
+        const parallel$ = Observable.forkJoin(
+            this.http.get('https://angular-http-guide.firebaseio.com/courses/-KgVwEBq5wbFnjj7O8Fp.json'),
+            this.http.get('https://angular-http-guide.firebaseio.com/courses/-KgVwECOnlc-LHb_B0cQ.json')
+        );
+
+        parallel$.subscribe(
+            values => {
+                console.log("all values", values)
+            }
+        );
+    }
+
+    sequentialRequests() {
+
+        const sequence$ = this.http.get<Course>('https://angular-http-guide.firebaseio.com/courses/-KgVwEBq5wbFnjj7O8Fp.json')
+            .switchMap(course => {
+
+                course.description+= ' - TEST ';
+
+                return this.http.put('https://angular-http-guide.firebaseio.com/courses/-KgVwEBq5wbFnjj7O8Fp.json', course)
+            },
+                (firstHTTPResult, secondHTTPResult)  => [firstHTTPResult, secondHTTPResult]);
+
+
+        sequence$.subscribe(values => console.log("result observable ", values) );
     }
 
 }
