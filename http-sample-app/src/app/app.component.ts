@@ -78,6 +78,9 @@ export class AppComponent implements OnInit {
         //        {headers})
         //    .do(console.log)
         //    .map(data => _.values(data));
+
+
+
     }
 
     httpPutExample() {
@@ -228,7 +231,24 @@ export class AppComponent implements OnInit {
 
         this.http
             .get("/api/simulate-error")
-            .subscribe();
+            .catch( error => {
+
+                // here we can show an error message to the user,
+                // for example via a service
+                console.error("error catched", error);
+
+                return Observable.of({description: "Error Value Emitted"});
+            })
+            .subscribe(
+                val => console.log('Value emitted successfully', val),
+                error => {
+
+
+                    console.error("This line is never called ",error);
+
+                },
+                () => console.log("HTTP Observable completed...")
+            );
 
     }
 
