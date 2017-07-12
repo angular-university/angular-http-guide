@@ -14,7 +14,6 @@ import 'rxjs/add/observable/of';
 import {AuthInterceptor} from "./auth-interceptor";
 
 
-
 @NgModule({
     declarations: [
         AppComponent
@@ -29,6 +28,5 @@ import {AuthInterceptor} from "./auth-interceptor";
     bootstrap: [AppComponent]
 })
 export class AppModule {
-
 
 }
