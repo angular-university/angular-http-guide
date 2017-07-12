@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "launch-server": "./node_modules/.bin/ts-node ./server.ts",
+    "start": "ng serve --proxy-config ./proxy.json ",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -22,6 +23,7 @@
     "@angular/platform-browser-dynamic": "^4.3.0-rc.0",
     "@angular/router": "^4.3.0-rc.0",
     "core-js": "^2.4.1",
+    "express": "^4.15.3",
     "lodash": "^4.17.4",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
@@ -42,6 +44,8 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "nodemon": "^1.11.0",
+    "npm-run-all": "^4.0.2",
     "protractor": "~5.1.2",
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",

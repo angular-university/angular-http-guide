@@ -40,6 +40,8 @@ interface Course {
         <button (click)="parallelRequests()">Parallel</button>
         
         <button (click)="sequentialRequests()">Sequential</button>
+        
+        <button (click)="throwError()">Simulate Error</button>
 
     `
 })
@@ -220,5 +222,17 @@ export class AppComponent implements OnInit {
 
         sequence$.subscribe(values => console.log("result observable ", values) );
     }
+
+
+    throwError() {
+
+        this.http
+            .get("/api/simulate-error")
+            .subscribe();
+
+    }
+
+
+
 
 }
