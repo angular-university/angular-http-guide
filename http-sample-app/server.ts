@@ -1,14 +1,15 @@
-
-
 const express = require('express');
+
+
 
 const app = express();
 
 
+
+
+
 app.route('/api/simulate-error')
     .get((req, res) => {
-
-
 
 
         res.status(500).send();
@@ -16,7 +17,12 @@ app.route('/api/simulate-error')
     });
 
 
+app.post('/api/test-request',  function(req,res){
 
+
+    res.status(200).json({description: "POST Response"});
+
+});
 
 
 const server = app.listen(9000, () => {

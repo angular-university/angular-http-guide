@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs/Observable";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpEventType, HttpHeaders, HttpParams, HttpRequest} from "@angular/common/http";
 import * as _ from 'lodash';
-
 
 
 interface Course {
@@ -36,12 +35,14 @@ interface Course {
         <button (click)="httpPostExample()">POST Request</button>
 
         <button (click)="duplicateRequestsExample()">Duplicate Requests</button>
-        
+
         <button (click)="parallelRequests()">Parallel</button>
-        
+
         <button (click)="sequentialRequests()">Sequential</button>
-        
+
         <button (click)="throwError()">Simulate Error</button>
+
+        <button (click)="longRequest()">Long Request</button>
 
     `
 })
@@ -78,7 +79,6 @@ export class AppComponent implements OnInit {
         //        {headers})
         //    .do(console.log)
         //    .map(data => _.values(data));
-
 
 
     }
@@ -196,7 +196,6 @@ export class AppComponent implements OnInit {
     }
 
 
-
     parallelRequests() {
 
         const parallel$ = Observable.forkJoin(
@@ -216,14 +215,14 @@ export class AppComponent implements OnInit {
         const sequence$ = this.http.get<Course>('https://angular-http-guide.firebaseio.com/courses/-KgVwEBq5wbFnjj7O8Fp.json')
             .switchMap(course => {
 
-                course.description+= ' - TEST ';
+                    course.description += ' - TEST ';
 
-                return this.http.put('https://angular-http-guide.firebaseio.com/courses/-KgVwEBq5wbFnjj7O8Fp.json', course)
-            },
-                (firstHTTPResult, secondHTTPResult)  => [firstHTTPResult, secondHTTPResult]);
+                    return this.http.put('https://angular-http-guide.firebaseio.com/courses/-KgVwEBq5wbFnjj7O8Fp.json', course)
+                },
+                (firstHTTPResult, secondHTTPResult) => [firstHTTPResult, secondHTTPResult]);
 
 
-        sequence$.subscribe(values => console.log("result observable ", values) );
+        sequence$.subscribe(values => console.log("result observable ", values));
     }
 
 
@@ -231,7 +230,7 @@ export class AppComponent implements OnInit {
 
         this.http
             .get("/api/simulate-error")
-            .catch( error => {
+            .catch(error => {
 
                 // here we can show an error message to the user,
                 // for example via a service
@@ -244,15 +243,39 @@ export class AppComponent implements OnInit {
                 error => {
 
 
-                    console.error("This line is never called ",error);
+                    console.error("This line is never called ", error);
 
                 },
                 () => console.log("HTTP Observable completed...")
             );
 
+
     }
 
 
+    longRequest() {
+
+        const request = new HttpRequest("POST", "/api/test-request", {}, {reportProgress: true});
+
+        this.http.request(request)
+            .subscribe(
+                event => {
+
+                    if (event.type === HttpEventType.DownloadProgress) {
+                        console.log("Download progress event", event);
+                    }
+
+                    if (event.type === HttpEventType.UploadProgress) {
+                        console.log("Upload progress event", event);
+                    }
+
+                    if (event.type === HttpEventType.Response) {
+                        console.log("response received...", event.body);
+                    }
+
+                }
+            );
+    }
 
 
 }
