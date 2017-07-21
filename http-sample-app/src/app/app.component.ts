@@ -48,7 +48,7 @@ interface Course {
 })
 export class AppComponent implements OnInit {
 
-    courses$: Observable<Course>;
+    courses$: Observable<Course[]>;
 
     constructor(private http: HttpClient) {
 
@@ -58,7 +58,7 @@ export class AppComponent implements OnInit {
 
         // Simple HTTP GET
         this.courses$ = this.http
-            .get("https://angular-http-guide.firebaseio.com/courses.json")
+            .get<Course[]>("https://angular-http-guide.firebaseio.com/courses.json")
             .do(console.log)
             .map(data => _.values(data));
 
