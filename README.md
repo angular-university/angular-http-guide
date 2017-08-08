@@ -8,7 +8,7 @@ This post will be a quick practical guide for the Angular HTTP Client module. We
 
 We will provide some examples of how to use this module to implement some of the most common uses that you will find during development.
 
-#Table Of Contents
+# Table Of Contents
 - Introduction to the new HTTP Client module
 - Example of an HTTP GET
 - Improved Type Safety
